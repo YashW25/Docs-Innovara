@@ -278,7 +278,7 @@ export async function updateDocumentFeedback(documentId: string, feedback: strin
 
     // Notify user
     const { data: doc } = await supabaseAdmin.from('documents').select('repositories(user_id), file_path').eq('id', documentId).single()
-    const docUserId = doc?.repositories?.user_id
+    const docUserId = Array.isArray(doc?.repositories) ? doc?.repositories[0]?.user_id : (doc?.repositories as any)?.user_id
     if (docUserId) {
       const { createNotification } = await import('@/app/dashboard/notifications/actions')
       await createNotification({
