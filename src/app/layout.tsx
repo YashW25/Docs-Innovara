@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://docs-innovara.netlify.app"),
   title: "Docs Innovara | Enterprise Document Management",
   description: "Secure, robust document and project management platform tailored for enterprise teams with GitHub-backed scalable storage and RBAC.",
   keywords: ["document management", "enterprise", "storage", "docs innovara", "secure file sharing", "project management"],
