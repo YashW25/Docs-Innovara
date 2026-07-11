@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Cache node_modules and Next.js build cache to speed up subsequent builds
+[[cache]]
+  paths = [
+    "node_modules",
+    ".next/cache"
+  ]
+
+# Set environment variables for the build environment (placeholders)
+[build.environment]
+  NEXT_PRIVATE_TARGET_RUNTIME = "edge" # Optimization if needed, though standard node works fine.
