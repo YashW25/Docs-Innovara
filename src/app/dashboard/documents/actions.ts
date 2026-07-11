@@ -285,7 +285,7 @@ export async function updateDocumentFeedback(documentId: string, feedback: strin
         userId: docUserId,
         actorName: profile.full_name,
         title: 'New Feedback',
-        message: `Your manager left feedback on your document: ${doc.file_path}`,
+        message: `Your manager left feedback on your document: ${doc?.file_path || 'Unknown Document'}`,
         link: '/dashboard/documents'
       })
     }
