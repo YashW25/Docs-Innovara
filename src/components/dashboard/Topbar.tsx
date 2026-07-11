@@ -1,11 +1,24 @@
+"use client"
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { LogOut, User } from "lucide-react"
 import { NotificationBell } from "./NotificationBell"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { createClient } from "@/utils/supabase/client"
 
 export function Topbar({ user }: { user: any }) {
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/')
+    router.refresh()
+  }
+
   return (
     <header className="flex h-16 items-center justify-between border-b border-zinc-800/60 bg-zinc-950/40 backdrop-blur-xl px-8 z-10">
       <div className="flex-1" />
@@ -31,21 +44,15 @@ export function Topbar({ user }: { user: any }) {
               </DropdownMenuLabel>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-zinc-800/60" />
-            <Link href="/dashboard/settings" className="w-full text-left">
-              <DropdownMenuItem className="focus:bg-zinc-800/80 focus:text-white cursor-pointer py-2.5 px-3 transition-colors">
-                <User className="mr-3 h-4 w-4 text-zinc-400" />
-                <span>Profile Settings</span>
-              </DropdownMenuItem>
-            </Link>
+            <DropdownMenuItem onClick={() => router.push('/dashboard/settings')} className="focus:bg-zinc-800/80 focus:text-white cursor-pointer py-2.5 px-3 transition-colors">
+              <User className="mr-3 h-4 w-4 text-zinc-400" />
+              <span>Profile Settings</span>
+            </DropdownMenuItem>
             <DropdownMenuSeparator className="bg-zinc-800/60" />
-            <form action="/auth/signout" method="POST">
-              <button type="submit" className="w-full text-left">
-                <DropdownMenuItem className="focus:bg-red-500/10 focus:text-red-400 cursor-pointer text-red-400 py-2.5 px-3 transition-colors">
-                  <LogOut className="mr-3 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
-              </button>
-            </form>
+            <DropdownMenuItem onClick={handleSignOut} className="focus:bg-red-500/10 focus:text-red-400 cursor-pointer text-red-400 py-2.5 px-3 transition-colors">
+              <LogOut className="mr-3 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
